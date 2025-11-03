@@ -1,0 +1,55 @@
+#+LANGUAGE: fr
+
+* Atelier Sciences
+
+Options de départ :
+
+ - overleaf
+ - cocalc
+ - gitea
+ - michel package :)
+
+* Mes idées (michel package)
+
+templace org
+
+git (gitea | gitlab | github) + Emacs + org + latex + [Makefile|gitlab-ci] => pdf, html ...
+
+bib !
+
+export slides beamer ou slides JS
+
+Un truc simple ! Pas *-reveal !
+
+* Besoin
+
+interface web 
+ - custom? NON
+ - overleaf? NON
+ - gitea? SIMPLE OUI
+ - 
+
+fabrication locale
+ - emacs + C-c C-e
+ - script ou Makefile
+
+fabrication serveur GdC
+ - runner
+
+* Implémentation
+
+** idée d'implémentation
+
+gitea : podman + act_runner
+Makefile
+
+*** runner
+
+#+begin_src shell
+  docker run \
+         -e GITEA_INSTANCE_URL=https://https://kheb.ignorelist.com:3000 \
+         -e GITEA_RUNNER_REGISTRATION_TOKEN=<your_token> \
+         -v /var/run/docker.sock:/var/run/docker.sock \
+         --name my_runner \
+         gitea/act_runner:nightly-dind-rootless
+#+end_src

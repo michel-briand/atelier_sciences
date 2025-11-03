@@ -1,0 +1,19 @@
+# -*- mode: org; -*-
+#+TITLE: Essai Beamer
+#+AUTHOR: Michel Briand, Rachid El Abouti
+#+EMAIL: michelbriand@free.fr
+#+DATE: Dernière édition : \today
+#+DESCRIPTION: Atelier de production documentaire pour étudiant
+#+KEYWORDS: document science emacs org latex beamer
+#+LANGUAGE: fr
+#+OPTIONS: H:2
+#+BEAMER_THEME: Warsaw
+#+BEAMER_COLOR_THEME: crane
+
+
+* Jour 1
+
+** Intro
+
+Coucou
+
