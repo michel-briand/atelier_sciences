@@ -1,5 +1,8 @@
 #+LANGUAGE: fr
 
+dépendance : orglatexbeamer-portable
+init - exécuter : ../orglatexbeamer-portable/install
+
 * Atelier Sciences
 
 Options de départ :
