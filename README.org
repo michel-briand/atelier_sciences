@@ -46,10 +46,34 @@ Makefile
 *** runner
 
 #+begin_src shell
-  docker run \
+  podman run \
          -e GITEA_INSTANCE_URL=https://https://kheb.ignorelist.com:3000 \
-         -e GITEA_RUNNER_REGISTRATION_TOKEN=<your_token> \
+         -e GITEA_RUNNER_REGISTRATION_TOKEN=$my_token \
          -v /var/run/docker.sock:/var/run/docker.sock \
-         --name my_runner \
-         gitea/act_runner:nightly-dind-rootless
+         --name r_atelier_sciences \
+         docker.io/gitea/act_runner:nightly-dind-rootless
+#+end_src
+
+zK32URV26psUJ5Q3eQl4mtGLU0zmSSyKNeUgawCc
+
+#+begin_src yaml
+name: Gitea Actions Demo
+run-name: ${{ gitea.actor }} is testing out Gitea Actions 🚀
+on: [push]
+
+jobs:
+  Explore-Gitea-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
+      - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ gitea.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
 #+end_src
