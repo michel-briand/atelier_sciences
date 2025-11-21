@@ -1,5 +1,25 @@
 #+LANGUAGE: fr
 
+*** plan
+création d'un conteneur pour act_runner (exécuteur gitea)
+  répertoire =container/gitea-act_runner=
+  fichier =compose.yml=
+
+création d'un conteneur avec emacs pour produire les documents ("sous process du runner)
+création d'un pod pour mettre tout ça ensemble
+création d'un service systemd pour le pod
+
+*** TODO/bugs
+
+network_mode
+    network_mode: 'pasta:--ipv4-only'
+    génère une erreur, depuis le conteneur on n'a plus accès au réseau/service gitea
+
+: [runner] | time="2025-11-21T14:48:55Z" level=error msg="fail to invoke Declare" error="unavailable: dial tcp 82.64.192.201:3000: connect: connection refused"
+
+avec network_mode: 'host', ça marche
+
+
 dépendance : orglatexbeamer-portable
 init - exécuter : ../orglatexbeamer-portable/install
 

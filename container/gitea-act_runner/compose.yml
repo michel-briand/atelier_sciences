@@ -1,0 +1,17 @@
+# -*- mode: yaml; -*-
+services:
+  runner:
+    image: gitea/act_runner
+    network_mode: 'host' # 'pasta:--ipv4-only' #erreur
+    restart: always
+    volumes:
+      - ./data:/data
+      - /var/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+    environment:
+      - GITEA_INSTANCE_URL=https://kheb.ignorelist.com:3000
+      # When using Docker Secrets, it's also possible to use
+      # GITEA_RUNNER_REGISTRATION_TOKEN_FILE to pass the location.
+      # The env var takes precedence.
+      # Needed only for the first start.
+      - GITEA_RUNNER_REGISTRATION_TOKEN=50dabd6aa19b25371dbd18cdc8da7d1ce7c6bfbc
+      - CONFIG_FILE=config.yml
