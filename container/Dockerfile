@@ -31,3 +31,6 @@ texlive-pstricks \
 texlive-science \
 texlive-xetex
 
+RUN mkdir /emacs
+COPY emacs-install /emacs/init.el
+RUN emacs --batch --load /emacs/init.el
