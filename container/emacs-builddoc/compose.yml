@@ -1,0 +1,11 @@
+# -*- mode: yaml; -*-
+services:
+  job-emacs-builddoc:
+    build: ./Dockerfile
+    image: runner-images:ubuntu-latest
+    network_mode: 'pasta'
+#    restart: always
+    volumes:
+      - /var/lib/gitea/data/gitea-repositories:/repos:ro
+      - /var/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+#    environment:

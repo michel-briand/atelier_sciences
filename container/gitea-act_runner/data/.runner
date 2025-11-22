@@ -6,8 +6,7 @@
   "token": "50dabd6aa19b25371dbd18cdc8da7d1ce7c6bfbc",
   "address": "https://kheb.ignorelist.com:3000",
   "labels": [
-    "debian-trixie-slim:docker://docker.io/debian:trixie-slim",
-    "node-trixie:docker://docker.io/library/node:trixie"
+    "ubuntu-latest:docker://docker.gitea.com/runner-images:ubuntu-latest"
   ],
   "ephemeral": false
 }
