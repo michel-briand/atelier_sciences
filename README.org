@@ -93,10 +93,8 @@ Makefile
          -e GITEA_RUNNER_REGISTRATION_TOKEN=$my_token \
          -v /var/run/docker.sock:/var/run/docker.sock \
          --name r_atelier_sciences \
-         docker.io/gitea/act_runner:nightly-dind-rootless
+         docker.io/gitea/act_runner:latest
 #+end_src
-
-zK32URV26psUJ5Q3eQl4mtGLU0zmSSyKNeUgawCc
 
 #+begin_src yaml
 name: Gitea Actions Demo
