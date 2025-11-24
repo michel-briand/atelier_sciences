@@ -6,7 +6,7 @@ secrets:
 services:
   runner:
     image: gitea/act_runner
-    network_mode: 'host' # 'pasta:--ipv4-only' #erreur
+    network_mode: 'host'
     restart: always
     volumes:
       - ./data:/data
@@ -14,8 +14,6 @@ services:
     environment:
       - GITEA_INSTANCE_URL=https://kheb.ignorelist.com:3000
       - GITEA_RUNNER_REGISTRATION_TOKEN_FILE=/run/secrets/atelier_sciences_runner_token
-      # - GITEA_RUNNER_REGISTRATION_TOKEN=
       - CONFIG_FILE=config.yml
     secrets:
       - atelier_sciences_runner_token
-
