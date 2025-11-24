@@ -1,4 +1,8 @@
 # -*- mode: yaml; -*-
+secrets:
+  atelier_sciences_runner_token:
+    external: true
+
 services:
   runner:
     image: gitea/act_runner
@@ -9,9 +13,9 @@ services:
       - /var/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
     environment:
       - GITEA_INSTANCE_URL=https://kheb.ignorelist.com:3000
-      # When using Docker Secrets, it's also possible to use
-      # GITEA_RUNNER_REGISTRATION_TOKEN_FILE to pass the location.
-      # The env var takes precedence.
-      # Needed only for the first start.
-      - GITEA_RUNNER_REGISTRATION_TOKEN=50dabd6aa19b25371dbd18cdc8da7d1ce7c6bfbc
+      - GITEA_RUNNER_REGISTRATION_TOKEN_FILE=/run/secrets/atelier_sciences_runner_token
+      # - GITEA_RUNNER_REGISTRATION_TOKEN=
       - CONFIG_FILE=config.yml
+    secrets:
+      - atelier_sciences_runner_token
+

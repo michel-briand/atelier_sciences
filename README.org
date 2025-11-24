@@ -18,10 +18,16 @@ création d'un service systemd pour le pod
 : [runner] | time="2025-11-21T14:48:55Z" level=error msg="fail to invoke Declare" error="unavailable: dial tcp 82.64.192.201:3000: connect: connection refused"
 
 avec network_mode: 'host', ça marche
+
 **** git clone dans le conteneur exécutant le job
 
 fatal: unable to access 'https://kheb.ignorelist.com:3000/publius/atelier_sciences/': Could
 not resolve host: kheb.ignorelist.com
+
+**** adresser le conteneur emacs
+
+port?
+
 
 *** stratégie locale
 
@@ -86,6 +92,10 @@ gitea : podman + act_runner
 Makefile
 
 *** runner
+
+création d'un secret avec podman :
+
+: echo 'montoken' | podman secret create atelier_sciences_runner_token -
 
 #+begin_src shell
   podman run \
