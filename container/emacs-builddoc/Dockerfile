@@ -29,7 +29,10 @@ texlive-pictures \
 texlive-plain-generic \
 texlive-pstricks \
 texlive-science \
-texlive-xetex
+texlive-xetex \
+texlive-latex-extra \
+make \
+latexmk
 
 RUN mkdir /emacs
 COPY emacs-install /emacs/init.el

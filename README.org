@@ -11,22 +11,17 @@ création d'un service systemd pour le pod
 
 *** TODO/bugs
 
-**** network_mode
-    network_mode: 'pasta:--ipv4-only'
-    génère une erreur, depuis le conteneur on n'a plus accès au réseau/service gitea
+**** git submodules pour publius/org...
 
-: [runner] | time="2025-11-21T14:48:55Z" level=error msg="fail to invoke Declare" error="unavailable: dial tcp 82.64.192.201:3000: connect: connection refused"
-
-avec network_mode: 'host', ça marche
-
-**** git clone dans le conteneur exécutant le job
-
-fatal: unable to access 'https://kheb.ignorelist.com:3000/publius/atelier_sciences/': Could
-not resolve host: kheb.ignorelist.com
+Quand le conteneur est lancé avec -v test les liens symboliques
+ne marchent pas. Donc il faudrait un submodule pour les fichiers
+Make et Emacs.
 
 **** adresser le conteneur emacs
 
-port?
+port? envoyer des commandes?
+solution socket?
+solution en cours run emacs --batch ...
 
 
 *** stratégie locale
