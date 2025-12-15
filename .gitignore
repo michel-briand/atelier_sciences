@@ -2,3 +2,5 @@
 *.html
 *.pdf
 *~
+# drawio tmp/backup
+.$*.bkp
