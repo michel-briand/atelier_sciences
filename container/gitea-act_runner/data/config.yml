@@ -39,6 +39,7 @@ runner:
   # If it's empty when execute `daemon`, will use labels in `.runner` file.
   labels:
     - "ubuntu-latest:docker://docker.gitea.com/runner-images:ubuntu-latest"
+    - "emacs-builddoc"
 # TODO: act_runner ne trouve pas les images locales :
 # [runner] | level=info msg="Registering runner, arch=amd64, os=linux, version=v0.2.13."
 # [runner] | level=error msg="Invalid input, please re-run act command." error="unsupported schema: localhost/emacs-builddoc"
