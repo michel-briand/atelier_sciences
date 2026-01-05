@@ -1,0 +1,22 @@
+avant localepurge
+
+# df   
+Filesystem                   1K-blocks      Used Available Use% Mounted on
+overlay                      799694328 797879724   1798220 100% /
+
+après
+
+overlay                      799694328 776262324  23415620  98% /
+
+MAIS
+
+avant
+
+localhost/emacs-builddoc    latest       5b395e05a2d9  5 weeks ago        4.34 GB
+
+après
+
+localhost/emacs-builddoc    latest       6d8a8e0bc196  About an hour ago  4.36 GB
+
+les paquets sont peut-être plus gros maintenant
+même si localepurge a fait le taf
