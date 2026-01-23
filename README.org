@@ -208,3 +208,10 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
 #+end_src
 
+
+ATTENTION, le runner a besoin d'une option particulière :
+
+#+begin_src shell
+export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+/home/michel/dev/gitea/act_runner-0.2.13-linux-amd64 exec -c container/gitea-act_runner/data/config.yml --container-daemon-socket=$DOCKER_HOST
+#+end_src
