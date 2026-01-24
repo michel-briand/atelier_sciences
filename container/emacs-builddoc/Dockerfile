@@ -47,6 +47,7 @@ RUN apt-get install -y \
     texlive-science \
     texlive-xetex \
     texlive-latex-extra \
+    git \
     make \
     latexmk \
     less
@@ -54,3 +55,7 @@ RUN apt-get install -y \
 RUN mkdir /emacs
 COPY emacs-install /emacs/init.el
 RUN emacs --batch --load /emacs/init.el
+
+# Add node for github/gitea actions capability
+RUN apt-get install -y \
+    nodejs
