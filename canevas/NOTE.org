@@ -1,0 +1,14 @@
+#+TITLE: Atelier sciences
+#+LANGUAGE: fr
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [french,a4paper,natural,usenames,svgnames]
+#+LATEX_HEADER: \usepackage{svg}
+# Custom Ansible language definition:
+#+latex_header: \input{.latex/listings-ansible.tex}
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+# Custom css file for org-mode
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+
+(c) Michel Briand, 2025-2026, licence CC BY-SA 4.0.
+
+* Introduction
