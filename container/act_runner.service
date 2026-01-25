@@ -1,0 +1,14 @@
+[Unit]
+Description=Gitea act_runner daemon
+After=network.target
+
+[Service]
+Environment=DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+WorkingDirectory=/var/lib/act_runner
+Slice=michel-background.slice
+Type=simple
+#ExecStartPre=
+ExecStart=/home/michel/dev/gitea/act_runner-0.2.13-linux-amd64 -c /home/michel/conf/kheb/publius/atelier_sciences/container/gitea-act_runner/data/config.yml daemon
+
+[Install]
+WantedBy=default.target

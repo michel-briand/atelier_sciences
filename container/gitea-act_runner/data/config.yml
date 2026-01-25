@@ -1,6 +1,6 @@
 log:
   # The level of logging, can be trace, debug, info, warn, error, fatal
-  level: info
+  level: debug
 
 runner:
   # Where to store the registration result.
@@ -39,7 +39,7 @@ runner:
   # If it's empty when execute `daemon`, will use labels in `.runner` file.
   labels:
     - "ubuntu-latest:docker://docker.gitea.com/runner-images:ubuntu-latest"
-    - "emacs-builddoc"
+#    - "emacs-builddoc"
 # TODO: act_runner ne trouve pas les images locales :
 # [runner] | level=info msg="Registering runner, arch=amd64, os=linux, version=v0.2.13."
 # [runner] | level=error msg="Invalid input, please re-run act command." error="unsupported schema: localhost/emacs-builddoc"
@@ -66,7 +66,8 @@ cache:
 
 container:
   # UTILISER PODMAN
-  # (défini dans le compose:) docker_host: "unix:///run/user/1000/podman/podman.sock"
+  # (défini dans le compose:)
+  docker_host: "unix:///run/user/1000/podman/podman.sock"
   # pour plus tard image: silex/emacs
 
   # Specifies the network to which the container will connect.

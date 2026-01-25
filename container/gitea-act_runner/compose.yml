@@ -10,10 +10,13 @@ services:
     restart: always
     volumes:
       - ./data:/data
-      - /var/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:rw
     environment:
       - GITEA_INSTANCE_URL=https://kheb.ignorelist.com:3000
       - GITEA_RUNNER_REGISTRATION_TOKEN_FILE=/run/secrets/atelier_sciences_runner_token
       - CONFIG_FILE=config.yml
+      - DOCKER_HOST=unix:///var/run/docker.sock
     secrets:
       - atelier_sciences_runner_token
+    security_opt:
+      - "label:disabled"
