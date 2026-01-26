@@ -1,1 +1,0 @@
-../orglatexbeamer-portable/emacs
