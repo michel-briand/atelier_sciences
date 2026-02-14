@@ -1,17 +1,19 @@
 # -*- mode: org; -*- important: ne pas enlever cette ligne
 #+TITLE: Atelier sciences
 #+LANGUAGE: fr
+#+LATEX_COMPILER: xelatex
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [french,a4paper]
-# #+LATEX_COMPILER: xelatex
-# #+LATEX_HEADER: \usepackage{fontspec}
-# #+LATEX_HEADER: \usepackage{xltxtra}
-# #+LATEX_HEADER: \usepackage{xelatexemoji}
+#+LaTeX_HEADER: \usepackage{noto}
+#+LaTeX_HEADER: \setlength\parindent{0pt}
+# % Setup colors and link colors
+#+LaTeX_HEADER: \usepackage[x11names,svgnames]{xcolor}
+#+LaTeX_HEADER: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
 #+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
-# Custom css file for org-mode
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
 
+#+begin_center
 (c) Michel Briand, 2025-2026, licence CC BY-SA 4.0.
+#+end_center
 
 * Introduction
 
@@ -163,7 +165,12 @@ NFS ?
 créons un conteneur qui utilise le répertoire local de gitea
 et le monte (via services)
 
-: podman run -it --name testgitlocal -v /var/lib/gitea/data/gitea-repositories:/repos:ro fb5e48a0afc7 /bin/bash
+#+begin_src shell
+  podman run -it \
+         --name testgitlocal \
+         -v /var/lib/gitea/data/gitea-repositories:/repos:ro \
+         fb5e48a0afc7 /bin/bash
+#+end_src
 
 dans le conteneur :
 
