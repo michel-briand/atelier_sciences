@@ -1,0 +1,5 @@
+#+LATEX_HEADER: \usepackage{svg}
+
+Texte un peu élaboré
+
+[[./ex2.svg]]

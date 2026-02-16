@@ -1,1 +1,1 @@
-../orglatexbeamer-portable/make
+../orglatexbeamer-portable/.make

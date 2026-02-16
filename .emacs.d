@@ -1,1 +1,1 @@
-../orglatexbeamer-portable/emacs
+../orglatexbeamer-portable/.emacs.d

@@ -38,6 +38,7 @@ Liste succincte de l'état de l'art...
    * CoCalc (propriétaire)
    * TeXlyre (libre)
  - Articles proposant des idées, une analyse, une solution :
+   * https://lucidmanager.org/productivity/publishing-with-org-mode-export/
    * https://blog.martisak.se/2020/05/11/gitlab-ci-latex-pipeline/
    * https://framatube.org/w/4SkerQToa4k99fhaUk4WHS
  - tbc

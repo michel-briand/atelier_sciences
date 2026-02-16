@@ -1,3 +1,5 @@
+TOP ?= $(PWD)
+
 default: all
 
 DEFAULT_LANGUAGE=fr
@@ -10,4 +12,4 @@ D_ORG=$(wildcard *.org)
 %.html: %.org
 	$(org_article_to_html)
 
-include .make/Makefile.inc
+include $(TOP)/.make/Makefile.inc
