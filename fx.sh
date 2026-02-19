@@ -10,7 +10,7 @@ creer_note_brouillon() { #1(o): nom, #r: chemin
     local ch i=0
     # créer un répertoire ici
     cd $ch_base_brouillon
-    ch=$(date +%Y-%M-%d)
+    ch=$(date +%Y-%m-%d)
     while [ -d "${ch}_${i}" ] ; do
         i=$((i+1))
     done
