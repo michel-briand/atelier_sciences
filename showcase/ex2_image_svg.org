@@ -1,5 +1,13 @@
+#+TITLE: Titre
+#+LANGUAGE: fr
+#+OPTIONS: toc:nil
 #+LATEX_HEADER: \usepackage{svg}
 
-Texte un peu élaboré
+*Inclure un dessin vectoriel* (format SVG par ex)
+
+Le dessin peut être mis à l'échelle librement.
+
+Par défaut, la largeur est définie à 90% de la largeur du texte. La
+hauteur est automatiquement calculée pour respecter l'aspect original.
 
 [[./ex2.svg]]
