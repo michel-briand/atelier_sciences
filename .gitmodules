@@ -1,0 +1,4 @@
+[submodule "orglatexbeamer-portable"]
+	path = orglatexbeamer-portable
+	url = ../orglatexbeamer-portable/
+	branch = master
