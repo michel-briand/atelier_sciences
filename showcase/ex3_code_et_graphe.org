@@ -1,9 +1,11 @@
 #+TITLE: Bloc de code et graphique
+#+LANGUAGE: fr
+#+DATE: 2026-03-06
 #+OPTIONS: toc:nil
 
 * Code python
 
-#+begin_src python :results graphics file output :file ./images/boxplot.png :exports both
+#+begin_src python :results graphics file output :file boxplot.png :output-dir images/ :exports code
   import matplotlib.pyplot as plt
   import numpy as np
 
@@ -23,6 +25,8 @@
   ax
   #plt.show()
 #+end_src
+
+* Graphique
 
 #+RESULTS:
 [[file:./images/boxplot.png]]

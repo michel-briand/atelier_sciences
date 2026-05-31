@@ -1,16 +1,16 @@
 #!/bin/bash
+top_dir="${TOP:=$PWD}"
 clean=1
 if [[ $1 = "-clean" ]] ; then
     clean=0
     shift
 fi
 if [[ $# -eq 0 ]] ; then
-    for i in *.org; do sources+=("$i"); done # "" required to handle filename with space(s)
+    for i in *.org; do sources+=("$i"); done
 else
-    sources=("$@") # idem
+    sources=("$@")
 fi
-for i in "${sources[@]}" ; do # "" required to handle filename with space(s)
-    if ! egrep -q -- '-\*- mode: org; -\*-' "$i" ; then continue; fi
+for i in "${sources[@]}" ; do
     s=$i
     t=${i%.org}.tex
     p=${i%.org}.pdf
@@ -20,25 +20,26 @@ for i in "${sources[@]}" ; do # "" required to handle filename with space(s)
     if [[ $clean -eq 0 ]] ; then
         rm -rf "$t" "$p" "$h" "$d" "$a"
     else
-        # basic tests for rebuild cases ; to be improved
-        # missing target tex and pdf
-        # source newer than target tex
-        # this script newer than target tex
-        if [[ (! -e $t) || (! -e $p) || $s -nt $t || $0 -nt $t ]] ; then
+        # missing target pdf
+        # source newer than target
+        # this script newer than target
+        if [[ (! -e $p) || $s -nt $p || $0 -nt $p ]] ; then
+            echo ">>>           $s => $p"
             emacs --batch \
-	          -l .emacs.d/org-mode_batch_init.el \
+                  --no-init-file --no-site-file --init-directory $top_dir/.emacs.d \
+	          -l $top_dir/.emacs.d/org-mode_new-init.el \
 	          --visit "$s" \
-	          -f org-latex-export-to-latex
-            latexmk -f -pdf -xelatex -interaction=nonstopmode \
-                    -deps-out="$d" \
-                    -auxdir="$a" "$t"
+                  -f org-babel-execute-buffer \
+	          -f org-latex-export-to-pdf
         fi
         # missing target html
-        # source newer that target html
-        # this script newer than target html
+        # source newer that target
+        # this script newer than target
         if [[ (! -e $h) || $s -nt $h || $0 -nt $h ]] ; then
+            echo ">>>           $s => $h"
             emacs --batch \
-	          -l .emacs.d/org-mode_batch_init.el \
+                  --no-init-file --no-site-file --init-directory $top_dir//.emacs.d \
+	          -l $top_dir/.emacs.d/org-mode_new-init.el \
 	          --visit "$s" \
 	          -f org-html-export-to-html
         fi

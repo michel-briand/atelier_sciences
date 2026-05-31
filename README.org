@@ -1,13 +1,10 @@
-# -*- mode: org; -*- important: ne pas enlever cette ligne
 #+TITLE: Atelier sciences
 #+LANGUAGE: fr
+#+DATE: {{{time(%d-%m-%Y %H:%M)}}}
 #+LATEX_COMPILER: xelatex
-#+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [french,a4paper]
 #+LaTeX_HEADER: \usepackage{noto}
 #+LaTeX_HEADER: \setlength\parindent{0pt}
 # % Setup colors and link colors
-#+LaTeX_HEADER: \usepackage[x11names,svgnames]{xcolor}
 #+LaTeX_HEADER: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
 #+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
 
@@ -166,7 +163,7 @@ NFS ?
 créons un conteneur qui utilise le répertoire local de gitea
 et le monte (via services)
 
-#+begin_src shell
+#+begin_src shell :eval no
   podman run -it \
          --name testgitlocal \
          -v /var/lib/gitea/data/gitea-repositories:/repos:ro \
@@ -184,7 +181,7 @@ création d'un secret avec podman :
 
 : echo 'montoken' | podman secret create atelier_sciences_runner_token -
 
-#+begin_src shell
+#+begin_src shell :eval no
   podman run \
          -e GITEA_INSTANCE_URL=https://https://kheb.ignorelist.com:3000 \
          -e GITEA_RUNNER_REGISTRATION_TOKEN=$my_token \
@@ -196,7 +193,7 @@ création d'un secret avec podman :
 
 *** workflow gitea
 
-#+begin_src yaml
+#+begin_src yaml :eval no
 name: Gitea Actions Demo
 run-name: ${{ gitea.actor }} is testing out Gitea Actions
 on: [push]
@@ -215,7 +212,7 @@ jobs:
 ATTENTION, le runner a besoin d'une option particulière dans le cas où
 il est lancé en mode =exec= :
 
-#+begin_src shell
+#+begin_src shell :eval no
 export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
 /home/michel/dev/gitea/act_runner-0.2.13-linux-amd64 exec -c container/gitea-act_runner/data/config.yml --container-daemon-socket=$DOCKER_HOST
 #+end_src

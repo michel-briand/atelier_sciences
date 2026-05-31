@@ -1,4 +1,4 @@
-#+TITLE: Titre
+#+TITLE: Inclure un dessin vectoriel
 #+LANGUAGE: fr
 #+OPTIONS: toc:nil
 #+LATEX_HEADER: \usepackage{svg}
