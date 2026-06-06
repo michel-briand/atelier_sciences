@@ -6,6 +6,7 @@ RUN rm /etc/apt/apt.conf.d/docker-clean
 ENV DEBIAN_FRONTEND="noninteractive"
 
 RUN apt-get update
+RUN apt-get upgrade -y
 
 RUN apt-get install -y \
     locales \
@@ -22,7 +23,7 @@ RUN for i in \
 RUN dpkg-reconfigure locales
 
 # Install Emacs and LaTeX packages
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing \
     curl \
     gnupg \
     openssh-client \
@@ -50,12 +51,22 @@ RUN apt-get install -y \
     git \
     make \
     latexmk \
-    less
+    less \
+    python3-numpy \
+    python3-matplotlib \
+    inkscape
 
-RUN mkdir /emacs
-COPY emacs-install /emacs/init.el
-RUN emacs --batch --load /emacs/init.el
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+RUN mkdir /root/.emacs.d
+
+COPY emacs_install.el /root/.emacs.d/
+COPY org-mode_new-init.el /root/.emacs.d/
+
+RUN emacs --batch --load /root/.emacs.d/emacs_install.el
 
 # Add node for github/gitea actions capability
 RUN apt-get install -y \
     nodejs
+
+RUN apt-get autoremove -y

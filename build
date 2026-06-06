@@ -10,6 +10,22 @@ if [[ $# -eq 0 ]] ; then
 else
     sources=("$@")
 fi
+# User name is defined in Emacs config:
+emacs_user_full_name=$(emacs --batch -Q --eval '(message user-full-name)')
+# System user name
+user_name=$(logname)
+user_record=$(getent passwd $user_name)
+user_gecos_field=$(echo "$user_record" | cut -d ':' -f 5)
+user_full_name=$(echo "$user_gecos_field" | cut -d ',' -f 1)
+if [[ -z "$user_full_name" ]] ; then user_full_name=$user_name ; fi
+if [[ -z "$emacs_user_full_name" ]] ; then
+    # Use system user name as fallback
+    AUTHOR=$user_full_name
+else
+    # Use Emacs defined user name
+    AUTHOR=$emacs_user_full_name
+fi
+# Loop through sources
 for i in "${sources[@]}" ; do
     s=$i
     t=${i%.org}.tex
@@ -29,8 +45,17 @@ for i in "${sources[@]}" ; do
                   --no-init-file --no-site-file --init-directory $top_dir/.emacs.d \
 	          -l $top_dir/.emacs.d/org-mode_new-init.el \
 	          --visit "$s" \
+                  --eval "(setq user-full-name \"$AUTHOR\")" \
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
+
+            # getent? logname? pinky?
+            # grep user-full-name ~/.emacs ???
+            # '(user-full-name "Michel Briand")
+            # GITHUB_ACTOR The username of the user that triggered the workflow.
+            
+            # --eval "(setq user-full-name \"Defaults to username=$USER, set [#+AUTHOR: Your Name] in your document\")" \
+                
         fi
         # missing target html
         # source newer that target
