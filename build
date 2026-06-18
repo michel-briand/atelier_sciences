@@ -7,8 +7,12 @@ echo $(realpath $md)
 
 : ${ATELIER_ROOT:=$md}
 : ${EMACS_ROOT:=$HOME/.emacs.d}
-if [ -d "$ATELIER_ROOT/.emacs.d" ] ; then
-    EMACS_ROOT=$ATELIER_ROOT/.emacs.d
+if [ "$GITHUB_ACTIONS" == "true" ] ; then
+    echo "Running in pipeline"
+else
+    if [ -d "$ATELIER_ROOT/.emacs.d" ] ; then
+        EMACS_ROOT=$ATELIER_ROOT/.emacs.d
+    fi
 fi
 : ${DOCUMENTS_ROOT:=$PWD}
 
