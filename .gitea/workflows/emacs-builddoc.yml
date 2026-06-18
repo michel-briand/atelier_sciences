@@ -20,4 +20,7 @@ jobs:
         run: ls -al ${{ gitea.workspace }} ${{ gitea.workspace }}/.emacs.d/
       - run: echo "Starting make:"
       - run: ./build
+      - uses: actions/upload-artifact@v7
+        with:
+          path: "$products"
       - run: echo "🍏 This job's status is ${{ job.status }}."

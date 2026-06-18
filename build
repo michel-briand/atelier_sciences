@@ -68,6 +68,11 @@ for i in "${sources[@]}" ; do
 	          --visit "$s" \
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
+            if [ $? -eq 0 ] ; then
+                if [ "$GITHUB_ACTIONS" == "true" ] ; then
+                    echo "products+=\"$p \"" >> "$GITHUB_ENV"
+                fi
+            fi
             set +x
         fi
         # missing target html
@@ -78,6 +83,11 @@ for i in "${sources[@]}" ; do
             emacs_cmd \
 	          --visit "$s" \
 	          -f org-html-export-to-html
+            if [ $? -eq 0 ] ; then
+                if [ "$GITHUB_ACTIONS" == "true" ] ; then
+                    echo "products+=\"$h org.css \"" >> "$GITHUB_ENV"
+                fi
+            fi
         fi
     fi
 done
