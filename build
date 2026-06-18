@@ -1,30 +1,48 @@
 #!/bin/bash
-top_dir="${TOP:=$PWD}"
+
+me=${0##*/}
+md=${0%/*}
+
+echo $(realpath $md)
+
+: ${ATELIER_ROOT:=$md}
+: ${EMACS_ROOT:=$HOME/.emacs.d}
+if [ -d "$ATELIER_ROOT/.emacs.d" ] ; then
+    EMACS_ROOT=$ATELIER_ROOT/.emacs.d
+fi
+: ${DOCUMENTS_ROOT:=$PWD}
+
 clean=1
 if [[ $1 = "-clean" ]] ; then
     clean=0
     shift
 fi
+
 if [[ $# -eq 0 ]] ; then
     for i in *.org; do sources+=("$i"); done
 else
     sources=("$@")
 fi
-# User name is defined in Emacs config:
-emacs_user_full_name=$(emacs --batch -Q --eval '(message user-full-name)')
-# System user name
-user_name=$(logname)
-user_record=$(getent passwd $user_name)
-user_gecos_field=$(echo "$user_record" | cut -d ':' -f 5)
-user_full_name=$(echo "$user_gecos_field" | cut -d ',' -f 1)
-if [[ -z "$user_full_name" ]] ; then user_full_name=$user_name ; fi
-if [[ -z "$emacs_user_full_name" ]] ; then
-    # Use system user name as fallback
-    AUTHOR=$user_full_name
-else
-    # Use Emacs defined user name
-    AUTHOR=$emacs_user_full_name
-fi
+
+emacs_user_full_name=$(emacs --batch -Q --eval '(princ user-full-name)')
+
+echo "emacs_user_full_name=$emacs_user_full_name"
+
+# If AUTHOR is set it takes precedence
+: ${AUTHOR:=$GITHUB_ACTOR} # else GITHUB_ACTOR
+: ${AUTHOR:=$emacs_user_full_name} # else user full name (local)
+
+echo "AUTHOR=$AUTHOR"
+
+function emacs_cmd {
+    emacs --batch -Q \
+          --init-directory $EMACS_ROOT \
+	  -l $ATELIER_ROOT/lib/org-mode_new-init.el \
+          --eval "(setq user-full-name \"$AUTHOR\")"
+}
+
+#type emacs_cmd
+
 # Loop through sources
 for i in "${sources[@]}" ; do
     s=$i
@@ -41,30 +59,19 @@ for i in "${sources[@]}" ; do
         # this script newer than target
         if [[ (! -e $p) || $s -nt $p || $0 -nt $p ]] ; then
             echo ">>>           $s => $p"
-            emacs --batch \
-                  --no-init-file --no-site-file --init-directory $top_dir/.emacs.d \
-	          -l $top_dir/.emacs.d/org-mode_new-init.el \
+            set -x
+            emacs_cmd \
 	          --visit "$s" \
-                  --eval "(setq user-full-name \"$AUTHOR\")" \
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
-
-            # getent? logname? pinky?
-            # grep user-full-name ~/.emacs ???
-            # '(user-full-name "Michel Briand")
-            # GITHUB_ACTOR The username of the user that triggered the workflow.
-            
-            # --eval "(setq user-full-name \"Defaults to username=$USER, set [#+AUTHOR: Your Name] in your document\")" \
-                
+            set +x
         fi
         # missing target html
         # source newer that target
         # this script newer than target
         if [[ (! -e $h) || $s -nt $h || $0 -nt $h ]] ; then
             echo ">>>           $s => $h"
-            emacs --batch \
-                  --no-init-file --no-site-file --init-directory $top_dir//.emacs.d \
-	          -l $top_dir/.emacs.d/org-mode_new-init.el \
+            emacs_cmd \
 	          --visit "$s" \
 	          -f org-html-export-to-html
         fi
