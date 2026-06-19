@@ -71,9 +71,9 @@ for i in "${sources[@]}" ; do
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
             if [ $? -eq 0 ] ; then
-                products+="$p "
+                products=$(printf "%s\n%s" $products "$p")
                 if [ "$GITHUB_ACTIONS" == "true" ] ; then
-                    echo "products=$products" >> "$GITHUB_ENV"
+                    printf "products=$products" >> "$GITHUB_ENV"
                 fi
             fi
             set +x
@@ -87,9 +87,9 @@ for i in "${sources[@]}" ; do
 	          --visit "$s" \
 	          -f org-html-export-to-html
             if [ $? -eq 0 ] ; then
-                products+="$h org.css "
+                products=$(printf "%s\n%s\n%s" $products "$h" "org.css")
                 if [ "$GITHUB_ACTIONS" == "true" ] ; then
-                    echo "products=$products" >> "$GITHUB_ENV"
+                    printf "products=$products" >> "$GITHUB_ENV"
                 fi
             fi
         fi
