@@ -22,5 +22,5 @@ jobs:
       - run: ./build
       - uses: actions/upload-artifact@v7
         with:
-          path: "$products"
+          path: ${{ env.products }}
       - run: echo "🍏 This job's status is ${{ job.status }}."

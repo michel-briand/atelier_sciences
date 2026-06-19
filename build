@@ -47,6 +47,8 @@ function emacs_cmd {
 
 #type emacs_cmd
 
+products=
+
 # Loop through sources
 for i in "${sources[@]}" ; do
     s=$i
@@ -69,8 +71,9 @@ for i in "${sources[@]}" ; do
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
             if [ $? -eq 0 ] ; then
+                products+="$p "
                 if [ "$GITHUB_ACTIONS" == "true" ] ; then
-                    echo "products+=\"$p \"" >> "$GITHUB_ENV"
+                    echo "products=$products" >> "$GITHUB_ENV"
                 fi
             fi
             set +x
@@ -84,8 +87,9 @@ for i in "${sources[@]}" ; do
 	          --visit "$s" \
 	          -f org-html-export-to-html
             if [ $? -eq 0 ] ; then
+                products+="$h org.css "
                 if [ "$GITHUB_ACTIONS" == "true" ] ; then
-                    echo "products+=\"$h org.css \"" >> "$GITHUB_ENV"
+                    echo "products=$products" >> "$GITHUB_ENV"
                 fi
             fi
         fi
