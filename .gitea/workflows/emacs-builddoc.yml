@@ -7,21 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     container: emacs-builddoc
     steps:  
-      - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
-      - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v6
+      # - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
+      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
+      # - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      # - name: Check out repository code
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
-      - run: echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: ls -al ${{ gitea.workspace }} ${{ gitea.workspace }}/.emacs.d/
-      - run: echo "Starting make:"
+      # - run: echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner."
+      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      # - name: List files in the repository
+      - run: ls -al ${{ gitea.workspace }} ${{ gitea.workspace }}/.emacs.d/
+      # - run: echo "Starting make:"
       - run: ./build
       - run: echo "products = ${{ env.products }}§"
       - uses: https://github.com/christopherHX/gitea-upload-artifact@v4 #- uses: actions/upload-artifact@v7
         with:
           path: ${{ env.products }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      # - run: echo "🍏 This job's status is ${{ job.status }}."
