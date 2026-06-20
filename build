@@ -93,7 +93,7 @@ done
 if [ "$GITHUB_ACTIONS" == "true" ] ; then
     (
         printf "products<<EOF\n"
-        for i in "${sources[@]}" ; do
+        for i in "${products[@]}" ; do
             printf "$i\n"
         done
         printf "EOF\n"
