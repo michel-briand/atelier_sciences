@@ -98,5 +98,5 @@ if [ "$GITHUB_ACTIONS" == "true" ] ; then
     #     done
     #     printf "EOF\n"
     # ) >> "$GITHUB_ENV"
-    echo "products=${products}" >> "$GITHUB_ENV"
+    echo "products=${products[@]}" >> "$GITHUB_ENV"
 fi
