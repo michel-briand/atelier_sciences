@@ -71,7 +71,7 @@ for i in "${sources[@]}" ; do
                   -f org-babel-execute-buffer \
 	          -f org-latex-export-to-pdf
             if [ $? -eq 0 ] ; then
-                products+=("$p")
+                products+=("$PWD/$p")
             fi
             set +x
         fi
@@ -84,7 +84,7 @@ for i in "${sources[@]}" ; do
 	          --visit "$s" \
 	          -f org-html-export-to-html
             if [ $? -eq 0 ] ; then
-                products+=("$h" "org.css")
+                products+=("$PWD/$h" "$PWD/org.css")
             fi
         fi
     fi
