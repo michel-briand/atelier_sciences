@@ -91,11 +91,12 @@ for i in "${sources[@]}" ; do
 done
 
 if [ "$GITHUB_ACTIONS" == "true" ] ; then
-    (
-        printf "products<<EOF\n"
-        for i in "${products[@]}" ; do
-            printf "$i\n"
-        done
-        printf "EOF\n"
-    ) >> "$GITHUB_ENV"
+    # (
+    #     printf "products<<EOF\n"
+    #     for i in "${products[@]}" ; do
+    #         printf "$i\n"
+    #     done
+    #     printf "EOF\n"
+    # ) >> "$GITHUB_ENV"
+    echo "products=${products}" >> "$GITHUB_ENV"
 fi
