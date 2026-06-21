@@ -23,6 +23,6 @@ jobs:
       - run: echo "products = ${{ env.products }}§"
       - uses: https://github.com/christopherHX/gitea-upload-artifact@v4 #- uses: actions/upload-artifact@v7
         with:
-          path: |-
+          path: |
             ${{ env.products }}
       # - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -94,7 +94,7 @@ if [ "$GITHUB_ACTIONS" == "true" ] ; then
     (
         printf "products<<EOF\n"
         for i in "${products[@]}" ; do
-            printf "-";printf " $i\n"
+            printf "$i\n"
         done
         printf "EOF\n"
     ) >> "$GITHUB_ENV"
