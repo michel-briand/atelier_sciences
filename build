@@ -1,31 +1,42 @@
-#!/bin/bash
+#!/bin/bash -x
 
 me=${0##*/}
 md=${0%/*}
 
-echo $(realpath $md)
-
-: ${ATELIER_ROOT:=$md}
+: ${ATELIER_ROOT:=$(realpath $md)}
 : ${EMACS_ROOT:=$HOME/.emacs.d}
+
 if [ "$GITHUB_ACTIONS" == "true" ] ; then
     echo "Running in pipeline"
 else
     if [ -d "$ATELIER_ROOT/.emacs.d" ] ; then
         EMACS_ROOT=$ATELIER_ROOT/.emacs.d
+    else
+        echo "Error" >&2
+        exit 1
     fi
 fi
-: ${DOCUMENTS_ROOT:=$PWD}
+
+# Emacs installation
+function emacs_installation {
+    echo "Installing / updating Emacs installation..."
+    emacs --batch -Q \
+          --init-directory $EMACS_ROOT \
+          -l $EMACS_ROOT/emacs_install.el
+    touch $EMACS_ROOT/atelier_sciences.installed
+}
+
+if [[ ! -d $EMACS_ROOT/elpa ]] || \
+       [[ ! -e $EMACS_ROOT/atelier_sciences.installed ]] ; then
+    emacs_installation
+fi
+
+# Arguments
 
 clean=1
 if [[ $1 = "-clean" ]] ; then
     clean=0
     shift
-fi
-
-if [[ $# -eq 0 ]] ; then
-    for i in *.org; do sources+=("$i"); done
-else
-    sources=("$@")
 fi
 
 emacs_user_full_name=$(emacs --batch -Q --eval '(princ user-full-name)')
@@ -39,17 +50,27 @@ echo "emacs_user_full_name=$emacs_user_full_name"
 echo "AUTHOR=$AUTHOR"
 
 function emacs_cmd {
+    echo "Producing document for $@ in $PWD"
     emacs --batch -Q \
           --init-directory $EMACS_ROOT \
 	  -l $ATELIER_ROOT/lib/org-mode_new-init.el \
-          --eval "(setq user-full-name \"$AUTHOR\")"
+          --eval "(setq user-full-name \"$AUTHOR\")" \
+          "$@"
 }
-
-#type emacs_cmd
 
 products=()
 
 # Loop through sources
+: ${DOCUMENTS_ROOT:=$PWD}
+
+cd $DOCUMENTS_ROOT
+
+if [[ $# -eq 0 ]] ; then
+    for i in *.org; do sources+=("$i"); done
+else
+    sources=("$@")
+fi
+
 for i in "${sources[@]}" ; do
     s=$i
     t=${i%.org}.tex
@@ -80,12 +101,14 @@ for i in "${sources[@]}" ; do
         # this script newer than target
         if [[ (! -e $h) || $s -nt $h || $0 -nt $h ]] ; then
             echo ">>>           $s => $h"
+            set -x
             emacs_cmd \
 	          --visit "$s" \
 	          -f org-html-export-to-html
             if [ $? -eq 0 ] ; then
                 products+=("$PWD/$h" "$PWD/org.css")
             fi
+            set +x
         fi
     fi
 done
@@ -96,7 +119,6 @@ if [ "$GITHUB_ACTIONS" == "true" ] ; then
         for i in "${products[@]}" ; do
             printf "$i\n"
         done
-        printf "\n"
         printf "EOF\n"
-    ) >> "$GITHUB_ENV"
+    ) >> "${GITHUB_ENV:=/dev/stdout}"
 fi
