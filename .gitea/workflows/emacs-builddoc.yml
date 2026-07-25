@@ -6,6 +6,8 @@ jobs:
   builddoc:
     runs-on: ubuntu-latest
     container: emacs-builddoc
+    volumes:
+      - /var/www/html/argconsulting/pub:/webdir
     steps:  
       # - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
       # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
