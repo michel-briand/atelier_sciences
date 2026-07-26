@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 me=${0##*/}
 md=${0%/*}
@@ -34,9 +34,26 @@ fi
 # Arguments
 
 clean=1
-if [[ $1 = "-clean" ]] ; then
-    clean=0
-    shift
+publish=0
+
+while getopts "cp" option
+do
+  case $option in
+      # -c clean
+      c ) clean=0 ;;
+      # -p publish
+      p ) publish=1 ;;
+      ? ) echo "Argument invalide." >&2; exit 1 ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+
+if [[ -e .builddoc.env ]] ; then
+    set -e
+    echo "Chargement du fichier de configuration du projet .builddoc.env"
+    source .builddoc.env
+    set +e
 fi
 
 emacs_user_full_name=$(emacs --batch -Q --eval '(princ user-full-name)')
@@ -65,6 +82,8 @@ products=()
 
 cd $DOCUMENTS_ROOT
 
+# peut-être charger le fichier env ici ?
+
 if [[ $# -eq 0 ]] ; then
     for i in *.org; do sources+=("$i"); done
 else
@@ -86,7 +105,6 @@ for i in "${sources[@]}" ; do
         # this script newer than target
         if [[ (! -e $p) || $s -nt $p || $0 -nt $p ]] ; then
             echo ">>>           $s => $p"
-            set -x
             emacs_cmd \
 	          --visit "$s" \
                   -f org-babel-execute-buffer \
@@ -94,35 +112,40 @@ for i in "${sources[@]}" ; do
             if [ $? -eq 0 ] ; then
                 products+=("$PWD/$p")
             fi
-            set +x
         fi
         # missing target html
         # source newer that target
         # this script newer than target
         if [[ (! -e $h) || $s -nt $h || $0 -nt $h ]] ; then
             echo ">>>           $s => $h"
-            set -x
             emacs_cmd \
 	          --visit "$s" \
 	          -f org-html-export-to-html
             if [ $? -eq 0 ] ; then
                 products+=("$PWD/$h" "$PWD/org.css")
             fi
-            set +x
         fi
     fi
 done
 
-if [ "$GITHUB_ACTIONS" == "true" ] ; then
-    (
-        printf "products<<EOF\n"
-        for i in "${products[@]}" ; do
-            printf "$i\n"
-            # /var/www/html/argconsulting/pub:/webdir
-            if [[ -d /webdir ]] ; then
-                cp -vf "$i" "/webdir"
-            fi
-        done
-        printf "EOF\n"
-    ) >> "${GITHUB_ENV:=/dev/stdout}"
+if [[ "$GITHUB_ACTIONS" == "true" ]] || [[ $publish == 1 ]] ; then
+    if [[ "$GITHUB_ACTIONS" == "true" ]] ; then
+        TARGET=/webdir
+    else
+        if [[ -z $BUILDDOC_WEBDIR ]] ; then
+            echo "Variable BUILDDOC_WEBDIR non définie. Erreur." >&2
+            exit 1
+        fi
+        TARGET=$BUILDDOC_WEBDIR
+    fi
+    if [[ ! -d $TARGET ]] ; then
+        echo "Le répertoire $TARGET n'existe pas. Erreur." >&2
+        exit 1
+    fi
+    echo "Copie les fichiers produits vers le site web : $TARGET"
+    echo "Chemin relatif défini dans le projet : $BUILDDOC_WEBDIR_FOLDER"
+    for i in "${products[@]}" ; do
+        echo "$i"
+        cp -vf "$i" "$TARGET/$BUILDDOC_WEBDIR_FOLDER"
+    done
 fi
