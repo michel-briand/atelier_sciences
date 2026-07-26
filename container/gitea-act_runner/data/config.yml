@@ -94,6 +94,8 @@ container:
   # valid_volumes:
   #   - '**'
   valid_volumes:
+    - '/var/www/html/poubelle/**'
+    - '/var/www/html/atelier/**'
     - '/var/www/html/argconsulting/**'
   # overrides the docker client host with the specified one.
   # If it's empty, act_runner will find an available docker host automatically.
